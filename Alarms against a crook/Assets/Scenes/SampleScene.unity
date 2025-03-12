@@ -132,6 +132,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 393251265}
+  - component: {fileID: 393251266}
   m_Layer: 0
   m_Name: EnemyWay
   m_TagString: Untagged
@@ -160,6 +161,25 @@ Transform:
   - {fileID: 1737706591}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &393251266
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 393251264}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 88c5e7f01a21c9f42b5554cfe757a164, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _waypoints:
+  - {fileID: 1812595122}
+  - {fileID: 2141698317}
+  - {fileID: 1110818743}
+  - {fileID: 1980658184}
+  - {fileID: 816577636}
+  - {fileID: 1737706591}
 --- !u!1 &495305175
 GameObject:
   m_ObjectHideFlags: 0
@@ -1399,7 +1419,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 5
-  _pathContainer: {fileID: 393251265}
+  _pathContainer: {fileID: 393251266}
 --- !u!114 &1659205525
 MonoBehaviour:
   m_ObjectHideFlags: 0

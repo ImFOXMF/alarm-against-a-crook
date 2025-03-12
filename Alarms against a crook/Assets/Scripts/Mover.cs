@@ -3,9 +3,9 @@ using UnityEngine;
 public class Mover : MonoBehaviour
 {
     [SerializeField] private float _speed;
-    [SerializeField] private Transform _pathContainer;
+    [SerializeField] private Path _pathContainer;
 
-    private Transform[] _waypoints;
+    private Transform[] _path;
     private int _currentWaypointIndex;
 
     private void Awake()
@@ -20,34 +20,34 @@ public class Mover : MonoBehaviour
         if (HasReachedCurrentWaypoint())
             UpdateTargetWaypoint();
     }
-    
+
     private void InitializeWaypoints()
     {
-        _waypoints = new Transform[_pathContainer.childCount];
+        _path = new Transform[_pathContainer.Waypoints.Length];
 
-        for (int i = 0; i < _waypoints.Length; i++)
+        for (int i = 0; i < _path.Length; i++)
         {
-            _waypoints[i] = _pathContainer.GetChild(i);
+            _path[i] = _pathContainer.Waypoints[i];
         }
     }
 
     private void GoToCurrentWaypoint()
     {
-        Transform currentWaypoint = _waypoints[_currentWaypointIndex];
+        Transform currentWaypoint = _path[_currentWaypointIndex];
         transform.position = Vector3.MoveTowards(transform.position, currentWaypoint.position,
             _speed * Time.deltaTime);
     }
 
     private bool HasReachedCurrentWaypoint()
     {
-        return transform.position == _waypoints[_currentWaypointIndex].position;
+        return transform.position == _path[_currentWaypointIndex].position;
     }
 
     private void UpdateTargetWaypoint()
     {
-        _currentWaypointIndex = ++_currentWaypointIndex % _waypoints.Length;
+        _currentWaypointIndex = ++_currentWaypointIndex % _path.Length;
 
-        Vector3 nextWaypointDirection = _waypoints[_currentWaypointIndex].position - transform.position;
+        Vector3 nextWaypointDirection = _path[_currentWaypointIndex].position - transform.position;
         transform.forward = nextWaypointDirection;
     }
 }

@@ -361,6 +361,7 @@
 "Assets/Scripts/Alarm.cs"
 "Assets/Scripts/Enemy.cs"
 "Assets/Scripts/Mover.cs"
+"Assets/Scripts/Path.cs"
 -langversion:9.0
 
 /deterministic
