@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Alarm : MonoBehaviour
 {
@@ -6,35 +7,49 @@ public class Alarm : MonoBehaviour
     [SerializeField] private float _maxVolume = 1f;
     [SerializeField] private float _volumeChangeSpeed = 1f;
 
-    private bool _isEnemyInside;
-    private float _targetVolume;
+    private bool _isEnemyInside = false;
+    private Coroutine _volumeChangeCoroutine;
 
     private void Start()
     {
-        _soundSource.volume = 0;
-        _soundSource.Play();
+        _soundSource.volume = 0f;
     }
 
-    private void Update()
+    public void ChangeEnemyPlace()
     {
-        _targetVolume = _isEnemyInside ? _maxVolume : 0f;
-        _soundSource.volume =
-            Mathf.MoveTowards(_soundSource.volume, _targetVolume, _volumeChangeSpeed * Time.deltaTime);
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.TryGetComponent(out Enemy enemy))
+        _isEnemyInside = !_isEnemyInside;
+        
+        if (_volumeChangeCoroutine != null)
         {
-            _isEnemyInside = true;
+            StopCoroutine(_volumeChangeCoroutine);
         }
+        
+        _volumeChangeCoroutine = StartCoroutine(ChangeVolumeCoroutine());
     }
 
-    private void OnTriggerExit(Collider other)
+    private IEnumerator ChangeVolumeCoroutine()
     {
-        if (other.TryGetComponent(out Enemy enemy))
+        float targetVolume = _isEnemyInside ? _maxVolume : 0f;
+        
+        if (_isEnemyInside && !_soundSource.isPlaying)
         {
-            _isEnemyInside = false;
+            _soundSource.Play();
+        }
+        
+        while (_soundSource.volume != targetVolume)
+        {
+            _soundSource.volume = Mathf.MoveTowards(
+                _soundSource.volume, 
+                targetVolume, 
+                _volumeChangeSpeed * Time.deltaTime
+            );
+            
+            yield return null;
+        }
+        
+        if (_soundSource.volume == 0f && _soundSource.isPlaying)
+        {
+            _soundSource.Stop();
         }
     }
 }
