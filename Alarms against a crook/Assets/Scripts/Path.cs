@@ -3,6 +3,14 @@ using UnityEngine;
 public class Path : MonoBehaviour
 {
     [SerializeField] private Transform[] _waypoints;
+    
+    public Transform[] Waypoints => _waypoints;
+    public int WaypointCount => _waypoints.Length;
+    
+    public Transform GetWaypoint(int index)
+    {
+        return Waypoints[index];
+    }
 
 #if UNITY_EDITOR
     [ContextMenu("Refresh Child Array")]
@@ -15,6 +23,4 @@ public class Path : MonoBehaviour
             _waypoints[i] = transform.GetChild(i);
     }
 #endif
-
-    public Transform[] Waypoints => _waypoints;
 }

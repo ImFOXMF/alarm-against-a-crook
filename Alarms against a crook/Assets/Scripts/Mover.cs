@@ -23,11 +23,11 @@ public class Mover : MonoBehaviour
 
     private void InitializeWaypoints()
     {
-        _path = new Transform[_pathContainer.Waypoints.Length];
+        _path = new Transform[_pathContainer.WaypointCount];
 
         for (int i = 0; i < _path.Length; i++)
         {
-            _path[i] = _pathContainer.Waypoints[i];
+            _path[i] = _pathContainer.GetWaypoint(i);
         }
     }
 

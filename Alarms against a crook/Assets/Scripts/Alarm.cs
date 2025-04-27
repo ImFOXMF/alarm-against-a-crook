@@ -15,32 +15,41 @@ public class Alarm : MonoBehaviour
         _soundSource.volume = 0f;
     }
 
-    public void ChangeEnemyPlace()
+    public void ToggleEnemyPosition()
     {
         _isEnemyInside = !_isEnemyInside;
         
+        CoroutineControl();
+    }
+
+    private void CoroutineControl()
+    {
         if (_volumeChangeCoroutine != null)
         {
             StopCoroutine(_volumeChangeCoroutine);
         }
         
-        _volumeChangeCoroutine = StartCoroutine(ChangeVolumeCoroutine());
+        _volumeChangeCoroutine = StartCoroutine(ChangeVolumeCoroutine(SetTargetVolume()));
     }
 
-    private IEnumerator ChangeVolumeCoroutine()
+    private float SetTargetVolume()
     {
         float targetVolume = _isEnemyInside ? _maxVolume : 0f;
-        
+        return targetVolume;
+    }
+
+    private IEnumerator ChangeVolumeCoroutine(float currentTargetVolume)
+    {
         if (_isEnemyInside && !_soundSource.isPlaying)
         {
             _soundSource.Play();
         }
         
-        while (_soundSource.volume != targetVolume)
+        while (_soundSource.volume != currentTargetVolume)
         {
             _soundSource.volume = Mathf.MoveTowards(
                 _soundSource.volume, 
-                targetVolume, 
+                currentTargetVolume, 
                 _volumeChangeSpeed * Time.deltaTime
             );
             

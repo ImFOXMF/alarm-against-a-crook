@@ -8,7 +8,7 @@ public class HouseTrigger : MonoBehaviour
     {
         if (other.TryGetComponent(out Enemy enemy))
         {
-            _alarm.ChangeEnemyPlace();
+            _alarm.ToggleEnemyPosition();
         }
     }
 
@@ -16,7 +16,7 @@ public class HouseTrigger : MonoBehaviour
     {
         if (other.TryGetComponent(out Enemy enemy))
         {
-            _alarm.ChangeEnemyPlace();
+            _alarm.ToggleEnemyPosition();
         }
     }
 }
