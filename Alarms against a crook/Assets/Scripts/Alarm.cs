@@ -15,7 +15,7 @@ public class Alarm : MonoBehaviour
         _soundSource.volume = 0f;
     }
 
-    public bool EnemyIsInHouse()
+    public bool SetEnemyInside()
     {
         _isEnemyInside = true;
 
@@ -24,7 +24,7 @@ public class Alarm : MonoBehaviour
         return _isEnemyInside;
     }
 
-    public bool EnemyIsOutOfHouse()
+    public bool SetEnemyOutside()
     {
         _isEnemyInside = false;
 
