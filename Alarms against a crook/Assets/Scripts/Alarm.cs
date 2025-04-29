@@ -4,6 +4,7 @@ using System.Collections;
 public class Alarm : MonoBehaviour
 {
     [SerializeField] private AudioSource _soundSource;
+    [SerializeField] private HouseTrigger _houseTrigger;
     [SerializeField] private float _maxVolume = 1f;
     [SerializeField] private float _volumeChangeSpeed = 1f;
 
@@ -15,22 +16,21 @@ public class Alarm : MonoBehaviour
         _soundSource.volume = 0f;
     }
 
-    public bool SetEnemyInside()
+    private void OnEnable()
     {
-        _isEnemyInside = true;
-
-        ToogleAudioPlayback();
-        
-        return _isEnemyInside;
+        _houseTrigger.FindEnemyPosition += ChangeEnemyPosition;
+    }
+    
+    private void OnDisable()
+    {
+        _houseTrigger.FindEnemyPosition -= ChangeEnemyPosition;
     }
 
-    public bool SetEnemyOutside()
+    private void ChangeEnemyPosition()
     {
-        _isEnemyInside = false;
+        _isEnemyInside = !_isEnemyInside;
 
         ToogleAudioPlayback();
-        
-        return _isEnemyInside;
     }
 
     private void ToogleAudioPlayback()

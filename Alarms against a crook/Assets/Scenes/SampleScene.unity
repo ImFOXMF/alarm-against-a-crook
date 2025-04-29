@@ -810,7 +810,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b04032105c62699469a8ae483e0a41e7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _alarm: {fileID: 1173294704}
 --- !u!1 &1173294703
 GameObject:
   m_ObjectHideFlags: 0
@@ -842,6 +841,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _soundSource: {fileID: 1173294705}
+  _houseTrigger: {fileID: 1154965965}
   _maxVolume: 1
   _volumeChangeSpeed: 1
 --- !u!82 &1173294705

@@ -1,14 +1,15 @@
+using System;
 using UnityEngine;
 
 public class HouseTrigger : MonoBehaviour
 {
-    [SerializeField] private Alarm _alarm;
+    public event Action FindEnemyPosition;
     
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out Enemy enemy))
         {
-            _alarm.SetEnemyInside();
+            FindEnemyPosition?.Invoke();
         }
     }
 
@@ -16,7 +17,7 @@ public class HouseTrigger : MonoBehaviour
     {
         if (other.TryGetComponent(out Enemy enemy))
         {
-            _alarm.SetEnemyOutside();
+            FindEnemyPosition?.Invoke();
         }
     }
 }
