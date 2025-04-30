@@ -3,13 +3,14 @@ using UnityEngine;
 
 public class HouseTrigger : MonoBehaviour
 {
-    public event Action FindEnemyPosition;
+    public event Action EnemyEntered;
+    public event Action EnemyExited;
     
     private void OnTriggerEnter(Collider other)
     {
         if (other.TryGetComponent(out Enemy enemy))
         {
-            FindEnemyPosition?.Invoke();
+            EnemyEntered?.Invoke();
         }
     }
 
@@ -17,7 +18,7 @@ public class HouseTrigger : MonoBehaviour
     {
         if (other.TryGetComponent(out Enemy enemy))
         {
-            FindEnemyPosition?.Invoke();
+            EnemyExited?.Invoke();
         }
     }
 }

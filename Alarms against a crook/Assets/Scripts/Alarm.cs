@@ -8,7 +8,7 @@ public class Alarm : MonoBehaviour
     [SerializeField] private float _maxVolume = 1f;
     [SerializeField] private float _volumeChangeSpeed = 1f;
 
-    private bool _isEnemyInside = false;
+    private int _enemiesInsideCount = 0;
     private Coroutine _volumeChangeCoroutine;
 
     private void Awake()
@@ -18,22 +18,34 @@ public class Alarm : MonoBehaviour
 
     private void OnEnable()
     {
-        _houseTrigger.FindEnemyPosition += ChangeEnemyPosition;
+        _houseTrigger.EnemyEntered += OnEnemyEntered;
+        _houseTrigger.EnemyExited += OnEnemyExited;
     }
     
     private void OnDisable()
     {
-        _houseTrigger.FindEnemyPosition -= ChangeEnemyPosition;
+        _houseTrigger.EnemyEntered -= OnEnemyEntered;
+        _houseTrigger.EnemyExited -= OnEnemyExited;
     }
 
-    private void ChangeEnemyPosition()
+    private void OnEnemyEntered()
     {
-        _isEnemyInside = !_isEnemyInside;
-
-        ToogleAudioPlayback();
+        _enemiesInsideCount++;
+        
+        UpdateSoundState();
     }
 
-    private void ToogleAudioPlayback()
+    private void OnEnemyExited()
+    {
+        if (_enemiesInsideCount > 0)
+        {
+            _enemiesInsideCount--;
+        }
+        
+        UpdateSoundState();
+    }
+
+    private void UpdateSoundState()
     {
         if (_volumeChangeCoroutine != null)
         {
@@ -45,12 +57,12 @@ public class Alarm : MonoBehaviour
 
     private float GetTargetVolume()
     {
-        return _isEnemyInside ? _maxVolume : 0f;
+        return _enemiesInsideCount > 0 ? _maxVolume : 0f;
     }
 
     private IEnumerator ChangeVolumeCoroutine(float currentTargetVolume)
     {
-        if (_isEnemyInside && !_soundSource.isPlaying)
+        if (_enemiesInsideCount > 0 && !_soundSource.isPlaying)
         {
             _soundSource.Play();
         }
